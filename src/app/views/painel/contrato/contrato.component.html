@@ -70,14 +70,14 @@
 				<div class="card-body">
 					<div class="media align-items-center">
 						<div class="media-body me-2">
-							<h2 class="text-white font-w600">{{ pago | currency : "$ " }}</h2>
+							<h2 class="text-white font-w600">{{ pago | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</h2>
 							<span class="text-white">Pago</span>
 							<div class="d-flex flex-column mt-4">
-								<h4 class="text-white font-w600 p-0 m-0">{{ reinvestido | currency : "$ " }}</h4>
+								<h4 class="text-white font-w600 p-0 m-0">{{ reinvestido | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</h4>
 								<span class="text-white">Reinvestido</span>
 							</div>
 							<div class="d-flex flex-column mt-4">
-								<h4 class="text-white font-w600 p-0 m-0">{{ pago - reinvestido | currency : "$ " }}
+								<h4 class="text-white font-w600 p-0 m-0">{{ pago - reinvestido | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
 								</h4>
 								<span class="text-white">Investimento Direto</span>
 							</div>
@@ -97,7 +97,7 @@
 				<div class="card-body">
 					<div class="media align-items-center">
 						<div class="media-body me-2">
-							<h2 class="text-white font-w600">{{ pendente | currency : "$ " }}</h2>
+							<h2 class="text-white font-w600">{{ pendente | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</h2>
 							<span class="text-white">Pendente</span>
 						</div>
 						<div class="d-inline-block position-relative donut-chart-sale" style="margin-right: 10px">
@@ -115,7 +115,7 @@
 				<div class="card-body">
 					<div class="media align-items-center">
 						<div class="media-body me-2">
-							<h2 class="text-white font-w600">{{ cancelado | currency : "$ " }}</h2>
+							<h2 class="text-white font-w600">{{ cancelado | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</h2>
 							<span class="text-white">Cancelado</span>
 						</div>
 						<div class="d-inline-block position-relative donut-chart-sale" style="margin-right: 10px">
@@ -193,12 +193,9 @@
 					<th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1">Valor</th>
 					<td mat-cell *matCellDef="let element" class="mat-body-1">
 						<div class="d-flex flex-column align-items-start py-2">
-							{{ element.valorDolar | currency : "$ " }}
-
+							{{ element.valor | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
 							<small class="bg-light-success text-success rounded f-w-600 p-6 p-y-4 f-s-12 mt-1"
-								*ngIf="element.tipoPagamento == tipoPagamento.Pix">{{ element.valor | currency :
-								"R$ "
-								}}</small>
+								*ngIf="element.tipoPagamento == tipoPagamento.USDT">{{ element.valorDolar | currency:'USD':'symbol':'1.2-2':'en-US' }} USDT</small>
 							<small class="bg-light-success text-success rounded f-w-600 p-6 p-y-4 f-s-12 mt-1"
 								*ngIf="element.tipoPagamento == tipoPagamento.BTC">{{ element.valorBTC }}</small>
 						</div>

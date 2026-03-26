@@ -79,7 +79,7 @@
 				<div class="card-body">
 					<div class="media align-items-center">
 						<div class="media-body me-2">
-							<h2 class="text-white font-w600">{{ pago | currency : "$ " }}</h2>
+							<h2 class="text-white font-w600">{{ pago | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</h2>
 							<span class="text-white">Pago</span>
 						</div>
 						<div class="d-inline-block position-relative donut-chart-sale" style="margin-right: 10px;">
@@ -97,7 +97,7 @@
 				<div class="card-body">
 					<div class="media align-items-center">
 						<div class="media-body me-2">
-							<h2 class="text-white font-w600">{{ pendente | currency : "$ " }}</h2>
+							<h2 class="text-white font-w600">{{ pendente | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</h2>
 							<span class="text-white">Pendente</span>
 						</div>
 						<div class="d-inline-block position-relative donut-chart-sale" style="margin-right: 10px;">
@@ -195,7 +195,7 @@
 					<th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1">Valor</th>
 					<td mat-cell *matCellDef="let element" class="mat-body-1">
 						<span *ngIf="element.tipoPagamento == tipoPagamento.Pix">{{ element.valorBRL | currency : 'R$ ' }}</span>
-						<span *ngIf="element.tipoPagamento != tipoPagamento.Pix">{{ element.valor | currency : '$ ' }}</span>
+						<span *ngIf="element.tipoPagamento != tipoPagamento.Pix">{{ element.valor | currency:'USD':'symbol':'1.2-2':'en-US' }}</span>
 					</td>
 				</ng-container>
 
@@ -211,7 +211,7 @@
 					<th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1">Valor Original</th>
 					<td mat-cell *matCellDef="let element" class="mat-body-1">
 						<span *ngIf="element.tipoPagamento == tipoPagamento.Pix">{{ element.valorOriginalBRL | currency : 'R$ ' }}</span>
-						<span *ngIf="element.tipoPagamento != tipoPagamento.Pix">{{ element.valorOriginal | currency : '$ ' }}</span>
+						<span *ngIf="element.tipoPagamento != tipoPagamento.Pix">{{ element.valorOriginal | currency:'USD':'symbol':'1.2-2':'en-US' }}</span>
 					</td>
 				</ng-container>
 
