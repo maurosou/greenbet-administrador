@@ -1,0 +1,96 @@
+<app-titulo titulo="Rendimento"></app-titulo>
+
+<app-carregando *ngIf="carregando"></app-carregando>
+
+<div class="card" *ngIf="!carregando">
+	<div class="card-header">
+		<div class="d-flex justify-content-between w-100">
+			<mat-card-title class="m-b-0">
+				<span>Lista</span>
+			</mat-card-title>
+		</div>
+		<button mat-fab extended color="primary" (click)="novo()">
+			<mat-icon>add</mat-icon>
+			Novo
+		</button>
+	</div>
+	<div class="card-body" *ngIf="lista.lista.length > 0">
+		<div class="table-responsive">
+			<table mat-table [dataSource]="lista.lista" class="table table-striped">
+				<ng-container matColumnDef="data">
+					<th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1">Data</th>
+					<td mat-cell *matCellDef="let element" class="mat-body-1">
+						<b>{{ element.data }}</b>
+					</td>
+				</ng-container>
+
+				<ng-container matColumnDef="valor">
+					<th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1">Valor</th>
+					<td mat-cell *matCellDef="let element" class="mat-body-1">{{ element.valor }}%</td>
+				</ng-container>
+
+				<ng-container matColumnDef="quantidadePago">
+					<th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1">
+						Quantidade de faturamentos pagos
+					</th>
+					<td mat-cell *matCellDef="let element" class="mat-body-1">
+						{{ element.quantidadePago }}
+					</td>
+				</ng-container>
+
+				<ng-container matColumnDef="status">
+					<th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1">Status</th>
+					<td mat-cell *matCellDef="let element" class="mat-body-1">
+						<span class="bg-light-warning text-warning rounded f-w-600 p-6 p-y-4 f-s-12"
+							*ngIf="element.status == status.Pendente">
+							Pendente
+						</span>
+						<span class="bg-light-info text-info rounded f-w-600 p-6 p-y-4 f-s-12"
+							*ngIf="element.status == status.Executando">
+							Executando
+						</span>
+						<span class="bg-light-success text-success rounded f-w-600 p-6 p-y-4 f-s-12"
+							*ngIf="element.status == status.Executado">
+							Executado
+						</span>
+						<span class="bg-light-danger text-danger rounded f-w-600 p-6 p-y-4 f-s-12"
+							*ngIf="element.status == status.Cancelado">
+							Cancelado
+						</span>
+					</td>
+				</ng-container>
+
+				<ng-container matColumnDef="acoes">
+					<th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1"></th>
+					<td mat-cell *matCellDef="let element" class="mat-body-1 text-end">
+						<button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+							<mat-icon>
+								<i-tabler name="dots" class="icon-20"></i-tabler>
+							</mat-icon>
+						</button>
+						<mat-menu #menu="matMenu" class="cardWithShadow">
+							<button mat-menu-item (click)="executar(element)">
+								<mat-icon>check</mat-icon>
+								<span>Executar</span>
+							</button>
+							<button mat-menu-item (click)="cancelar(element)">
+								<mat-icon>close</mat-icon>
+								<span>Cancelar</span>
+							</button>
+						</mat-menu>
+					</td>
+				</ng-container>
+
+				<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+				<tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+			</table>
+		</div>
+	</div>
+	<div class="card-footer" *ngIf="lista.lista.length > 0">
+		<app-paginacao [lista]="lista" [pagina]="filtro.pagina"
+			(alterarPaginaEvent)="alterarPagina($event)"></app-paginacao>
+	</div>
+	<div class="card-footer" *ngIf="lista.lista.length == 0">
+		<app-lista-vazia></app-lista-vazia>
+	</div>
+</div>

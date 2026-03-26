@@ -1,0 +1,85 @@
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+// Define a paleta verde do logo
+$logo-green-palette: (
+  50: #e8fbee,
+  100: #c7f5d4,
+  200: #9feeb8,
+  300: #75e69b,
+  400: #4fe080,
+  500: #02d33f,
+  600: #00c437,
+  700: #00b22e,
+  800: #009f26,
+  900: #008117,
+  A100: #b6ffcb,
+  A200: #83ffab,
+  A400: #4eff8a,
+  A700: #35ff79,
+  contrast: (
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: rgba(black, 0.87),
+    400: rgba(black, 0.87),
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+    A100: rgba(black, 0.87),
+    A200: rgba(black, 0.87),
+    A400: rgba(black, 0.87),
+    A700: rgba(black, 0.87),
+  )
+);
+
+// Define a paleta vermelha natalina para accent
+$christmas-red-palette: (
+  50: #ffebee,
+  100: #ffcdd2,
+  200: #ef9a9a,
+  300: #e57373,
+  400: #ef5350,
+  500: #c41e3a,
+  600: #e53935,
+  700: #d32f2f,
+  800: #c62828,
+  900: #b71c1c,
+  A100: #ff8a80,
+  A200: #ff5252,
+  A400: #ff1744,
+  A700: #d50000,
+  contrast: (
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: rgba(black, 0.87),
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+    A100: rgba(black, 0.87),
+    A200: white,
+    A400: white,
+    A700: white,
+  )
+);
+
+$my-primary: mat.define-palette($logo-green-palette, 500);
+$my-accent: mat.define-palette($christmas-red-palette, 500);
+$my-warn: mat.define-palette(mat.$red-palette);
+
+$my-theme: mat.define-light-theme((
+  color: (
+    primary: $my-primary,
+    accent: $my-accent,
+    warn: $my-warn,
+  )
+));
+
+@include mat.all-component-themes($my-theme);

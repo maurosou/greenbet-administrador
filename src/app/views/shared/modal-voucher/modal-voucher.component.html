@@ -1,0 +1,14 @@
+<h2 mat-dialog-title>Novo Voucher</h2>
+<mat-dialog-content *ngIf="carregando">
+	<app-carregando></app-carregando>
+</mat-dialog-content>
+<mat-dialog-content class="mat-typography pt-4" *ngIf="!carregando">
+	<mat-form-field appearance="outline" class="w-100">
+		<mat-label>Valor</mat-label>
+		<input matInput [(ngModel)]="valor" mask="separator.2" />
+	</mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end" *ngIf="!carregando">
+	<button mat-button (click)="fechar()">Cancelar</button>
+	<button mat-button class="bg-light-success text-success" (click)="salvar()">Salvar</button>
+</mat-dialog-actions>

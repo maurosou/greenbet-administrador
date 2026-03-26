@@ -1,0 +1,309 @@
+<app-titulo titulo="Contas"></app-titulo>
+
+<div class="card">
+	<div class="card-header">
+		<h4 class="card-title">Filtros</h4>
+	</div>
+	<div class="card-body">
+		<div class="row">
+			<div class="col-12 col-md">
+				<mat-form-field appearance="outline" class="w-100">
+					<mat-label>Nome</mat-label>
+					<input matInput [(ngModel)]="filtro.nome" />
+				</mat-form-field>
+			</div>
+			<div class="col-12 col-md">
+				<mat-form-field appearance="outline" class="w-100">
+					<mat-label>Patrocinador</mat-label>
+					<input matInput [(ngModel)]="filtro.patrocinador" />
+				</mat-form-field>
+			</div>
+			<div class="col-12 col-md">
+				<mat-form-field appearance="outline" class="w-100">
+					<mat-label>Email</mat-label>
+					<input matInput [(ngModel)]="filtro.email" />
+				</mat-form-field>
+			</div>
+			<div class="col-12 col-md">
+				<mat-form-field appearance="outline" class="w-100">
+					<mat-label>CPF</mat-label>
+					<input matInput [(ngModel)]="filtro.cpf" />
+				</mat-form-field>
+			</div>
+			<div class="col-12 col-md">
+				<mat-form-field appearance="outline" class="w-100">
+					<mat-label>Status</mat-label>
+					<mat-select [(ngModel)]="filtro.status">
+						<mat-option [value]="null">Todos</mat-option>
+						<mat-option [value]="status.Habilitado">Habilitado</mat-option>
+						<mat-option [value]="status.Desabilitado">Desabilitado</mat-option>
+					</mat-select>
+				</mat-form-field>
+			</div>
+
+			<div class="col-12 col-md">
+				<mat-form-field appearance="outline" class="w-100">
+					<mat-label>Ativo</mat-label>
+					<mat-select [(ngModel)]="filtro.ativo">
+						<mat-option [value]="null">Todos</mat-option>
+						<mat-option [value]="true">Ativo</mat-option>
+						<mat-option [value]="false">Inativo</mat-option>
+					</mat-select>
+				</mat-form-field>
+			</div>
+			<div class="col-12 col-md">
+				<mat-form-field appearance="outline" class="w-100">
+					<mat-label>Tipo</mat-label>
+					<mat-select [(ngModel)]="filtro.tipo">
+						<mat-option [value]="null">Todos</mat-option>
+						<mat-option [value]="tipo.Conta">Conta</mat-option>
+						<mat-option [value]="tipo.Trainee">Trainee</mat-option>
+						<mat-option [value]="tipo.Senior">Senior</mat-option>
+						<mat-option [value]="tipo.Master">Master</mat-option>
+						<mat-option [value]="tipo.Diretor">Diretor</mat-option>
+					</mat-select>
+				</mat-form-field>
+			</div>
+
+			<div class="col-12 col-md">
+				<mat-form-field appearance="outline" class="w-100">
+					<mat-label>Min. Diretos</mat-label>
+					<input type="number" matInput [(ngModel)]="filtro.minDiretos" />
+				</mat-form-field>
+			</div>
+
+			<div class="col-12 col-md">
+				<mat-form-field appearance="outline" class="w-100">
+					<mat-label>Max. Diretos</mat-label>
+					<input type="number" matInput [(ngModel)]="filtro.maxDiretos" />
+				</mat-form-field>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col d-flex justify-content-center">
+				<button mat-flat-button color="primary" (click)="buscar()">BUSCAR</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<app-carregando *ngIf="carregando"></app-carregando>
+
+<div class="card" *ngIf="!carregando">
+	<div class="card-header">
+		<h4 class="card-title">Lista</h4>
+	</div>
+	<div class="card-body" *ngIf="lista.lista.length > 0">
+		<div class="table-responsive">
+			<table mat-table [dataSource]="lista.lista" class="table table-striped">
+				<ng-container matColumnDef="id">
+					<th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1">Código</th>
+					<td mat-cell *matCellDef="let element" class="mat-body-1">
+						{{ element.id }}
+					</td>
+				</ng-container>
+
+				<ng-container matColumnDef="usuario">
+					<th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1">Usuário</th>
+					<td mat-cell *matCellDef="let element" class="mat-body-1">
+						<div class="d-flex flex-column py-1">
+							<b class="text-uppercase">{{ element.usuario }}</b>
+							<small>{{ element.nome }}</small>
+							<small>{{ element.email }}</small>
+							<small>{{ element.cpf }}</small>
+						</div>
+					</td>
+				</ng-container>
+
+				<ng-container matColumnDef="status">
+					<th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1">Status</th>
+					<td mat-cell *matCellDef="let element" class="mat-body-1">
+						<span class="bg-success text-white rounded p-2" *ngIf="element.status == status.Habilitado">
+							Habilitado
+						</span>
+						<span class="bg-error text-white rounded p-2" *ngIf="element.status == status.Desabilitado">
+							Desabilitado
+						</span>
+					</td>
+				</ng-container>
+
+				<ng-container matColumnDef="bloquearSaque">
+					<th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1">Saque Rendimento</th>
+					<td mat-cell *matCellDef="let element" class="mat-body-1">
+						<span class="text-success rounded f-w-600 p-6 p-y-4 f-s-12" *ngIf="!element.bloquearSaque">
+							Liberado
+						</span>
+						<span class="text-danger rounded f-w-600 p-6 p-y-4 f-s-12" *ngIf="element.bloquearSaque">
+							Bloqueado
+						</span>
+					</td>
+				</ng-container>
+
+				<ng-container matColumnDef="diretos">
+					<th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1">Diretos</th>
+					<td mat-cell *matCellDef="let element" class="mat-body-1">
+						<div class="d-flex flex-column py-1">
+							<div class="d-flex gap-3">
+								<b class="text-uppercase">Diretos:</b>
+								<small>{{ element.diretos }}</small>
+							</div>
+							<div class="d-flex gap-3">
+								<b class="text-uppercase text-success">Ativos:</b>
+								<small>{{ element.diretosAtivos }}</small>
+							</div>
+							<div class="d-flex gap-3">
+								<b class="text-uppercase text-danger">Inativos</b>
+								<small>{{ element.diretos - element.diretosAtivos }}</small>
+							</div>
+						</div>
+					</td>
+				</ng-container>
+
+				<ng-container matColumnDef="bloquearSaqueBonus">
+					<th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1">Saque Bônus</th>
+					<td mat-cell *matCellDef="let element" class="mat-body-1">
+						<span class="text-success rounded f-w-600 p-6 p-y-4 f-s-12" *ngIf="!element.bloquearSaqueBonus">
+							Liberado
+						</span>
+						<span class="text-danger rounded f-w-600 p-6 p-y-4 f-s-12" *ngIf="element.bloquearSaqueBonus">
+							Bloqueado
+						</span>
+					</td>
+				</ng-container>
+
+				<ng-container matColumnDef="telefone">
+					<th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1">Telefone</th>
+					<td mat-cell *matCellDef="let element" class="mat-body-1">
+						{{ element.telefone }}
+					</td>
+				</ng-container>
+
+				<ng-container matColumnDef="patrocinador">
+					<th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1">Patrocinador</th>
+					<td mat-cell *matCellDef="let element" class="mat-body-1">
+						<div class="d-flex flex-column" *ngIf="element.patrocinadorUsuario.length > 0">
+							<b class="text-uppercase">{{ element.patrocinadorUsuario }}</b>
+							<small>{{ element.patrocinadoNome }}</small>
+							<small>{{ element.patrocinadorEmail }}</small>
+						</div>
+					</td>
+				</ng-container>
+
+				<ng-container matColumnDef="tipo">
+					<th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1">Tipo</th>
+					<td mat-cell *matCellDef="let element" class="mat-body-1">
+						<span *ngIf="element.tipo == tipo.Conta">Conta</span>
+						<span *ngIf="element.tipo == tipo.Trainee">Trainee</span>
+						<span *ngIf="element.tipo == tipo.Pleno">Pleno</span>
+						<span *ngIf="element.tipo == tipo.Senior">Senior</span>
+						<span *ngIf="element.tipo == tipo.Master">Master</span>
+						<span *ngIf="element.tipo == tipo.Diretor">Diretor</span>
+					</td>
+				</ng-container>
+
+				<ng-container matColumnDef="data">
+					<th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1">Data de Cadastro</th>
+					<td mat-cell *matCellDef="let element" class="mat-body-1">
+						{{ element.dataCadastro }}
+					</td>
+				</ng-container>
+
+				<ng-container matColumnDef="ativo">
+					<th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1">Ativo</th>
+					<td mat-cell *matCellDef="let element" class="mat-body-1">
+						<span class="bg-light-success text-success rounded f-w-600 p-6 p-y-4 f-s-12"
+							*ngIf="element.ativo">
+							Ativo
+						</span>
+						<span class="bg-light-error text-error rounded f-w-600 p-6 p-y-4 f-s-12" *ngIf="!element.ativo">
+							Inativo
+						</span>
+					</td>
+				</ng-container>
+
+				<ng-container matColumnDef="acoes">
+					<th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1"></th>
+					<td mat-cell *matCellDef="let element" class="mat-body-1 text-end">
+						<button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+							<mat-icon>
+								<i-tabler name="dots" class="icon-20"></i-tabler>
+							</mat-icon>
+						</button>
+						<mat-menu #menu="matMenu" class="cardWithShadow">
+							<button mat-menu-item (click)="titularidade(element)">
+								<mat-icon>mobile_screen_share</mat-icon>
+								<span>Assumir Conta</span>
+							</button>
+							<button mat-menu-item (click)="editar(element)">
+								<mat-icon>edit</mat-icon>
+								<span>Editar</span>
+							</button>
+							<button mat-menu-item (click)="senha(element)">
+								<mat-icon>security</mat-icon>
+								<span>Alterar Senha</span>
+							</button>
+							<button mat-menu-item (click)="patrocinador(element)">
+								<mat-icon>share</mat-icon>
+								<span>Alterar Patrocinador</span>
+							</button>
+							<hr />
+							<button mat-menu-item (click)="voucher(element)">
+								<mat-icon>redeem</mat-icon>
+								<span>Adicionar Voucher</span>
+							</button>
+							<button mat-menu-item (click)="voucherRendimento(element)">
+								<mat-icon>redeem</mat-icon>
+								<span>Adicionar Voucher com Rendimento</span>
+							</button>
+							<hr />
+							<button mat-menu-item (click)="adicionarSaldo(element)">
+								<mat-icon class="text-success">add</mat-icon>
+								<span>Adicionar Saldo</span>
+							</button>
+							<button mat-menu-item (click)="removerSaldo(element)">
+								<mat-icon class="text-danger">remove</mat-icon>
+								<span>Remover Saldo</span>
+							</button>
+							<hr />
+							<button mat-menu-item (click)="liberarSaque(element)">
+								<mat-icon class="text-success">check</mat-icon>
+								<span>Liberar Saque Rendimento</span>
+							</button>
+							<button mat-menu-item (click)="bloquearSaque(element)">
+								<mat-icon class="text-danger">remove</mat-icon>
+								<span>Bloquear Saque Rendimento</span>
+							</button>
+							<button mat-menu-item (click)="liberarSaqueBonus(element)">
+								<mat-icon class="text-success">check</mat-icon>
+								<span>Liberar Saque Bônus</span>
+							</button>
+							<button mat-menu-item (click)="bloquearSaqueBonus(element)">
+								<mat-icon class="text-danger">remove</mat-icon>
+								<span>Bloquear Saque Bônus</span>
+							</button>
+							<hr />
+							<button mat-menu-item (click)="alerarStatus(element, status.Habilitado)">
+								<mat-icon>check</mat-icon>
+								<span>Habilitado</span>
+							</button>
+							<button mat-menu-item (click)="alerarStatus(element, status.Desabilitado)">
+								<mat-icon>close</mat-icon>
+								<span>Desabilitado</span>
+							</button>
+						</mat-menu>
+					</td>
+				</ng-container>
+
+				<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+				<tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+			</table>
+		</div>
+	</div>
+	<div class="card-footer" *ngIf="lista.lista.length > 0">
+		<app-paginacao [lista]="lista" [pagina]="filtro.pagina"
+			(alterarPaginaEvent)="alterarPagina($event)"></app-paginacao>
+	</div>
+	<div class="card-footer" *ngIf="lista.lista.length == 0">
+		<app-lista-vazia></app-lista-vazia>
+	</div>
+</div>

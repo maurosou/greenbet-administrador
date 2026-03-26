@@ -1,0 +1,16 @@
+<h2 mat-dialog-title>Excluir</h2>
+<mat-dialog-content *ngIf="carregando">
+	<app-carregando></app-carregando>
+</mat-dialog-content>
+<mat-dialog-content class="mat-typography pt-4" *ngIf="!carregando">
+	<div class="alert alert-warning" role="alert">
+		<strong>Cuidado essa ação pode mecher direto com o saldo dos usuários envolvidos</strong> <br>
+		Você tem certeza que deseja excluir? <br>
+		<small>Esta ação não poderá ser desfeita e pode afetar outras partes do sistema, confira bem antes de
+			confirmar!</small>
+	</div>
+</mat-dialog-content>
+<mat-dialog-actions align="end" *ngIf="!carregando">
+	<button mat-button (click)="fechar()">Cancelar</button>
+	<button mat-button class="bg-success text-white" (click)="salvar()">OK</button>
+</mat-dialog-actions>

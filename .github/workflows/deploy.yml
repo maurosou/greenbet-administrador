@@ -1,0 +1,44 @@
+name: Deploy Angular via SFTP
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      SERVER_HOST: 147.135.88.26
+      SERVER_USER: root
+      SERVER_PASS: hn*HQtZ66C&5_s6^
+      DEST_PATH: /www/wwwroot/dashboard.greenbet.digital
+      OUTPUT_PATH: dist
+      SFTP_PORT: 22
+
+    steps:
+      - name: Checkout do repositório
+        uses: actions/checkout@v3
+
+      - name: Instalar Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18.x"
+
+      - name: Instalar dependências
+        run: npm install --legacy-peer-deps
+
+      - name: Build do projeto Angular
+        run: npm run build -- --configuration production
+
+      - name: Enviar arquivos via SFTP
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ env.SERVER_HOST }}
+          username: ${{ env.SERVER_USER }}
+          password: ${{ env.SERVER_PASS }}
+          port: ${{ env.SFTP_PORT }}
+          source: ${{ env.OUTPUT_PATH }}/*
+          target: ${{ env.DEST_PATH }}
+          strip_components: 1

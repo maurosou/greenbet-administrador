@@ -1,0 +1,13 @@
+.organogram {
+	display: flex;
+	flex-direction: column;
+ }
+
+ .node {
+	padding: 10px;
+	margin: 5px;
+ }
+
+ .children {
+	margin-left: 40px;
+ }

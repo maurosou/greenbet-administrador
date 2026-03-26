@@ -1,0 +1,26 @@
+<h2 mat-dialog-title>Editar</h2>
+<mat-dialog-content *ngIf="carregando">
+	<app-carregando></app-carregando>
+</mat-dialog-content>
+<mat-dialog-content class="mat-typography pt-4" *ngIf="!carregando">
+	<mat-form-field appearance="outline" class="w-100">
+		<mat-label>Nome</mat-label>
+		<input matInput [(ngModel)]="model.nome" />
+	</mat-form-field>
+	<mat-form-field appearance="outline" class="w-100">
+		<mat-label>Usuário</mat-label>
+		<input matInput [(ngModel)]="model.usuario" />
+	</mat-form-field>
+	<mat-form-field appearance="outline" class="w-100">
+		<mat-label>Email</mat-label>
+		<input matInput [(ngModel)]="model.email" />
+	</mat-form-field>
+	<mat-form-field appearance="outline" class="w-100">
+		<mat-label>Telefone</mat-label>
+		<input matInput [(ngModel)]="model.telefone" />
+	</mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end" *ngIf="!carregando">
+	<button mat-button (click)="fechar()">Cancelar</button>
+	<button mat-button class="bg-light-success text-success" (click)="salvar()">Salvar</button>
+</mat-dialog-actions>

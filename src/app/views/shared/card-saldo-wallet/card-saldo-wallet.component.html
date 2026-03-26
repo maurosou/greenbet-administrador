@@ -1,0 +1,25 @@
+<div class="card overflow-hidden" *ngIf="!carregando">
+	<div class="social-graph-wrapper widget-linkedin bg-primary bg-gradient">
+		<span class="s-icon"><i class="fa-solid fa-wallet"></i></span>
+	</div>
+	<div class="row">
+		<div class="col-12 col-md border-end">
+			<div class="pt-3 pb-3 ps-0 pe-0 text-center">
+				<h4 class="m-1">{{saldoUSDTBep20}}</h4>
+				<p class="m-0">USDT BEP 20</p>
+			</div>
+		</div>
+		<div class="col-12 col-md">
+			<div class="pt-3 pb-3 ps-0 pe-0 text-center">
+				<h4 class="m-1">{{saldoBNB}}</h4>
+				<p class="m-0">BNB</p>
+			</div>
+		</div>
+	</div>
+	<div class="card-footer text-center">
+		<span>Wallet Principal</span> <br>
+		<b>{{wallet}}</b>
+	</div>
+</div>
+
+<app-carregando *ngIf="carregando"></app-carregando>

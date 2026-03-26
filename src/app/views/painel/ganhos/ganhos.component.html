@@ -1,0 +1,97 @@
+<app-titulo titulo="Ganhos dos Sócios"></app-titulo>
+
+<app-carregando *ngIf="carregando"></app-carregando>
+
+<div class="card" *ngIf="!carregando">
+	<div class="card-header">
+		<h4 class="card-title">Ganhos</h4>
+	</div>
+	<div class="card-body" *ngIf="lista.length > 0">
+		<div class="table-responsive">
+			<table mat-table [dataSource]="lista" class="table table-striped">
+
+				<ng-container matColumnDef="nome">
+					<th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1">Nome</th>
+					<td mat-cell *matCellDef="let element" class="mat-body-1">{{ element.nome }}</td>
+				</ng-container>
+
+				<ng-container matColumnDef="valor">
+					<th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1">Valor</th>
+					<td mat-cell *matCellDef="let element" class="mat-body-1">{{ element.saldo | currency: '$ ' }}</td>
+				</ng-container>
+
+				<ng-container matColumnDef="acoes">
+					<th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1"></th>
+					<td mat-cell *matCellDef="let element" class="mat-body-1">
+						<button class="btn btn-success" *ngIf="element.valor > 0" (click)="enviar(element.id, element.saldo)">
+							<i-tabler name="check" class="me-2"></i-tabler>
+							Pagar
+						</button>
+					</td>
+				</ng-container>
+
+				<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+				<tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+			</table>
+		</div>
+	</div>
+	<div class="card-footer" *ngIf="lista.length == 0">
+		<app-lista-vazia></app-lista-vazia>
+	</div>
+</div>
+
+<div class="card" *ngIf="!carregando">
+	<div class="card-header">
+		<h4 class="card-title">Saques feitos neste período</h4>
+	</div>
+	<div class="card-body" *ngIf="saques.length > 0">
+		<div class="table-responsive">
+			<table mat-table [dataSource]="saques" class="table table-striped">
+
+				<ng-container matColumnDef="nome">
+					<th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1">Nome</th>
+					<td mat-cell *matCellDef="let element" class="mat-body-1">{{ element.nome }}</td>
+				</ng-container>
+
+				<ng-container matColumnDef="valor">
+					<th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1">Valor</th>
+					<td mat-cell *matCellDef="let element" class="mat-body-1">{{ element.valor | currency: '$ ' }}</td>
+				</ng-container>
+
+				<ng-container matColumnDef="status">
+					<th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1">Status</th>
+					<td mat-cell *matCellDef="let element" class="mat-body-1">
+						<span class="bg-light-success text-success rounded f-w-600 p-6 p-y-4 f-s-12"
+							*ngIf="element.status == status.Pago">
+							Pago
+						</span>
+						<span class="bg-light-warning text-warning rounded f-w-600 p-6 p-y-4 f-s-12"
+							*ngIf="element.status == status.Pendente">
+							Pendente
+						</span>
+						<span class="bg-light-error text-error rounded f-w-600 p-6 p-y-4 f-s-12"
+							*ngIf="element.status == status.Cancelado">
+							Cancelado
+						</span>
+					</td>
+				</ng-container>
+
+				<ng-container matColumnDef="data">
+					<th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1">Data</th>
+					<td mat-cell *matCellDef="let element" class="mat-body-1">{{ element.data }}</td>
+				</ng-container>
+
+				<ng-container matColumnDef="admin">
+					<th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1">Feito por</th>
+					<td mat-cell *matCellDef="let element" class="mat-body-1">{{ element.admin }}</td>
+				</ng-container>
+
+				<tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+				<tr mat-row *matRowDef="let row; columns: displayedColumns2"></tr>
+			</table>
+		</div>
+	</div>
+	<div class="card-footer" *ngIf="saques.length == 0">
+		<app-lista-vazia></app-lista-vazia>
+	</div>
+</div>

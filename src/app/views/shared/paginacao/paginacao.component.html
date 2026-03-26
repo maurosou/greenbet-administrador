@@ -1,0 +1,23 @@
+<div class="row align-items-center">
+	<div class="col-12 col-md px-5 py-2">Total de registros: {{ lista.totalRegistro ?? 0 }}</div>
+	<div class="col-12 col-md py-2 px-5">
+		<div class="d-flex align-items-center gap-1 justify-content-end">
+			<button mat-icon-button [disabled]="lista.paginaAtual == 1" [class.text-black]="lista.paginaAtual != 1"
+				[class.text-black-10]="lista.paginaAtual == 1" (click)="anterior()">
+				<mat-icon>chevron_left</mat-icon>
+			</button>
+			<button mat-button [matMenuTriggerFor]="menu" class="text-black" [disabled]="lista.totalPaginas == 1">
+				<mat-icon [class.text-black-10]="lista.totalPaginas == 1">arrow_drop_down</mat-icon>
+				<span>{{ pagina }}</span>
+			</button>
+			<mat-menu #menu="matMenu">
+				<button mat-menu-item *ngFor="let item of paginas" (click)="irPagina(item)">{{ item }}</button>
+			</mat-menu>
+			<button mat-icon-button [disabled]="lista.paginaAtual == lista.totalPaginas"
+				[class.text-black]="lista.paginaAtual != lista.totalPaginas"
+				[class.text-black-10]="lista.paginaAtual == lista.totalPaginas" (click)="proxima()">
+				<mat-icon>chevron_right</mat-icon>
+			</button>
+		</div>
+	</div>
+</div>

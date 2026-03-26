@@ -1,0 +1,14 @@
+<div class="card">
+	<div class="card-header">
+		<h4 class="card-title">Mensal</h4>
+	</div>
+	<div class="card-body">
+		<apx-chart *ngIf="columnChartOptions != undefined" [series]="columnChartOptions.series"
+			[chart]="columnChartOptions.chart" [xaxis]="columnChartOptions.xaxis" [yaxis]="columnChartOptions.yaxis"
+			[grid]="columnChartOptions.grid" [stroke]="columnChartOptions.stroke" [tooltip]="columnChartOptions.tooltip"
+			[plotOptions]="columnChartOptions.plotOptions" [dataLabels]="columnChartOptions.dataLabels"
+			[legend]="columnChartOptions.legend" [colors]="columnChartOptions.colors"
+			[markers]="columnChartOptions.markers">
+		</apx-chart>
+	</div>
+</div>

@@ -1,0 +1,27 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Iniciar Servidor Angular",
+			"type": "shell",
+			"command": "${workspaceFolder}\\start-angular.cmd",
+			"group": "build",
+			"presentation": {
+				"reveal": "always",
+				"panel": "new"
+			},
+			"problemMatcher": []
+		},
+		{
+			"label": "Publicação no Servidor",
+			"type": "shell",
+			"command": "${workspaceFolder}\\deploy.cmd",
+			"group": "build",
+			"presentation": {
+				"reveal": "always",
+				"panel": "new"
+			},
+			"problemMatcher": []
+		}
+	]
+}

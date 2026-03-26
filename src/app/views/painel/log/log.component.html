@@ -1,0 +1,104 @@
+<app-titulo titulo="Log do Sistema"></app-titulo>
+
+<div class="card">
+	<div class="card-header">
+		<h4 class="card-title">Filtros</h4>
+	</div>
+	<div class="card-body">
+		<div class="row">
+			<div class="col-12 col-md">
+				<mat-form-field appearance="outline" class="w-100">
+					<mat-label>Data de</mat-label>
+					<input matInput [matDatepicker]="picker" [(ngModel)]="filtro.dataDe" />
+					<mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+					<mat-datepicker #picker></mat-datepicker>
+				</mat-form-field>
+			</div>
+			<div class="col-12 col-md">
+				<mat-form-field appearance="outline" class="w-100">
+					<mat-label>Data até</mat-label>
+					<input matInput [matDatepicker]="picker2" [(ngModel)]="filtro.dataAte" />
+					<mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+					<mat-datepicker #picker2></mat-datepicker>
+				</mat-form-field>
+			</div>
+			<div class="col-12 col-md">
+				<mat-form-field appearance="outline" class="w-100">
+					<mat-label>Nome</mat-label>
+					<input matInput [(ngModel)]="filtro.nome" />
+				</mat-form-field>
+			</div>
+			<div class="col-12 col-md">
+				<mat-form-field appearance="outline" class="w-100">
+					<mat-label>Email</mat-label>
+					<input matInput [(ngModel)]="filtro.email" />
+				</mat-form-field>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col d-flex justify-content-center">
+				<button mat-flat-button color="primary" (click)="buscar()">BUSCAR</button>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<app-carregando *ngIf="carregando"></app-carregando>
+
+<div class="card" *ngIf="!carregando">
+	<div class="card-header">
+		<h4 class="card-title">Lista</h4>
+	</div>
+	<div class="card-body" *ngIf="lista.lista.length > 0">
+		<div class="table-responsive">
+			<table mat-table [dataSource]="lista.lista" class="table table-striped">
+				<ng-container matColumnDef="data">
+					<th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1">Data</th>
+					<td mat-cell *matCellDef="let element" class="mat-body-1">
+						{{ element.data }}
+					</td>
+				</ng-container>
+
+				<ng-container matColumnDef="usuario">
+					<th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1">Usuário</th>
+					<td mat-cell *matCellDef="let element" class="mat-body-1">
+						<b>{{ element.usuario.nome }}</b><br />
+						<small>{{ element.usuario.usuario }}</small>
+					</td>
+				</ng-container>
+
+				<ng-container matColumnDef="tipo">
+					<th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1">Área</th>
+					<td mat-cell *matCellDef="let element" class="mat-body-1">
+						{{ element.tipo }}
+					</td>
+				</ng-container>
+
+				<ng-container matColumnDef="descricao">
+					<th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1">Descrição</th>
+					<td mat-cell *matCellDef="let element" class="mat-body-1">
+						{{ element.descricao }}
+					</td>
+				</ng-container>
+
+				<ng-container matColumnDef="objeto">
+					<th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1">Objeto Técnico</th>
+					<td mat-cell *matCellDef="let element" class="mat-body-1">
+						<textarea rows="1" class="form-control">{{ element.objeto }}</textarea>
+					</td>
+				</ng-container>
+
+				<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+				<tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+			</table>
+		</div>
+	</div>
+	<div class="card-footer" *ngIf="lista.lista.length > 0">
+		<app-paginacao [lista]="lista" [pagina]="filtro.pagina"
+			(alterarPaginaEvent)="alterarPagina($event)"></app-paginacao>
+	</div>
+	<div class="card-footer" *ngIf="lista.lista.length == 0">
+		<app-lista-vazia></app-lista-vazia>
+	</div>
+</div>

@@ -1,0 +1,150 @@
+<app-titulo titulo="Extrato de Faturamento"></app-titulo>
+
+
+<div class="row">
+	<div class="col-12 col-md-9">
+		<div class="card">
+			<div class="card-header">
+				<h4 class="card-title">Filtros</h4>
+			</div>
+			<div class="card-body">
+				<div class="row">
+					<div class="col-12 col-md">
+						<mat-form-field appearance="outline" class="w-100">
+							<mat-label>Data de</mat-label>
+							<input matInput [matDatepicker]="picker" [(ngModel)]="filtro.dataDe" />
+							<mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+							<mat-datepicker #picker></mat-datepicker>
+						</mat-form-field>
+					</div>
+					<div class="col-12 col-md">
+						<mat-form-field appearance="outline" class="w-100">
+							<mat-label>Data até</mat-label>
+							<input matInput [matDatepicker]="picker2" [(ngModel)]="filtro.dataAte" />
+							<mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+							<mat-datepicker #picker2></mat-datepicker>
+						</mat-form-field>
+					</div>
+					<div class="col-12 col-md">
+						<mat-form-field appearance="outline" class="w-100">
+							<mat-label>Conta</mat-label>
+							<input matInput [(ngModel)]="filtro.conta" />
+						</mat-form-field>
+					</div>
+					<div class="col-12 col-md">
+						<mat-form-field appearance="outline" class="w-100">
+							<mat-label>Indicação</mat-label>
+							<input matInput [(ngModel)]="filtro.indicacao" />
+						</mat-form-field>
+					</div>
+					<div class="col-12 col-md">
+						<mat-form-field appearance="outline" class="w-100">
+							<mat-label>Tipo</mat-label>
+							<mat-select [(ngModel)]="filtro.tipo">
+								<mat-option [value]="null">Todos</mat-option>
+								<mat-option [value]="tipo.Rendimento">Rendimento</mat-option>
+								<mat-option [value]="tipo.Pool">Pool</mat-option>
+								<mat-option [value]="tipo.Residual">Residual</mat-option>
+								<mat-option [value]="tipo.Direto">Indicações Direta</mat-option>
+								<mat-option [value]="tipo.Indireto">Indicações Indireta</mat-option>
+								<mat-option [value]="tipo.Carreira">Plano de Carreira</mat-option>
+							</mat-select>
+						</mat-form-field>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col d-flex justify-content-center">
+						<button mat-flat-button color="primary" (click)="buscar()">BUSCAR</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+	</div>
+	<div class="col-12 col-md-3">
+		<div class="card">
+			<div class="card-header">
+				<h4 class="card-title">Total</h4>
+			</div>
+			<div class="card-body">
+				<h4 class="mat-headline-5">{{ total | currency : "$" }}</h4>
+			</div>
+		</div>
+	</div>
+</div>
+
+<app-carregando *ngIf="carregando"></app-carregando>
+
+<div class="card" *ngIf="!carregando">
+	<div class="card-header">
+		<h4 class="card-title">Lista</h4>
+	</div>
+	<div class="card-body" *ngIf="lista.lista.length > 0">
+		<div class="table-responsive">
+			<table mat-table [dataSource]="lista.lista" class="table table-striped">
+				<ng-container matColumnDef="id">
+					<th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1">Código</th>
+					<td mat-cell *matCellDef="let element" class="mat-body-1">
+						{{ element.id }}
+					</td>
+				</ng-container>
+
+				<ng-container matColumnDef="data">
+					<th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1">Data</th>
+					<td mat-cell *matCellDef="let element" class="mat-body-1">
+						{{ element.data }}
+					</td>
+				</ng-container>
+
+				<ng-container matColumnDef="conta">
+					<th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1">Conta</th>
+					<td mat-cell *matCellDef="let element" class="mat-body-1">
+						<b>{{ element.contaUsuario }}</b><br />
+						<small>{{ element.contaNome }}</small><br />
+						<small>{{ element.contaEmail }}</small>
+					</td>
+				</ng-container>
+
+				<ng-container matColumnDef="valor">
+					<th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1">Valor</th>
+					<td mat-cell *matCellDef="let element" class="mat-body-1">
+						{{ element.valor | currency : "USD" }}
+					</td>
+				</ng-container>
+
+				<ng-container matColumnDef="tipo">
+					<th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1">Tipo</th>
+					<td mat-cell *matCellDef="let element" class="mat-body-1">
+						<span *ngIf="element.tipo == tipo.Rendimento">Rendimento</span>
+						<span *ngIf="element.tipo == tipo.Residual">Unilevel de Rendimento</span>
+						<span *ngIf="element.tipo == tipo.Direto">Indicações Direta</span>
+						<span *ngIf="element.tipo == tipo.Indireto">Indicações Indireta</span>
+						<span *ngIf="element.tipo == tipo.Pool">Pool</span>
+						<span *ngIf="element.tipo == tipo.Carreira">Plano de Carreira</span>
+					</td>
+				</ng-container>
+
+				<ng-container matColumnDef="indicacao">
+					<th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1">Indicação</th>
+					<td mat-cell *matCellDef="let element" class="mat-body-1">
+						<b>{{ element.indicacaoUsuario }}</b><br />
+						<small>{{ element.indicacaoNome }}</small><br />
+						<small>{{ element.indicacaoEmail }}</small>
+					</td>
+				</ng-container>
+
+				<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+				<tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+			</table>
+		</div>
+	</div>
+	<div class="card-footer" *ngIf="lista.lista.length > 0">
+		<app-paginacao [lista]="lista" [pagina]="filtro.pagina"
+			(alterarPaginaEvent)="alterarPagina($event)"></app-paginacao>
+	</div>
+	<div class="card-footer" *ngIf="lista.lista.length == 0">
+		<app-lista-vazia></app-lista-vazia>
+	</div>
+</div>

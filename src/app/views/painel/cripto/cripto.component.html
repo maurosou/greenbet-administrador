@@ -1,0 +1,272 @@
+<app-titulo titulo="Criptos"></app-titulo>
+
+<div class="card">
+    <div class="card-header">
+        <h4 class="card-title">Filtros</h4>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-12 col-md">
+                <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Data de</mat-label>
+                    <input matInput [matDatepicker]="picker" [(ngModel)]="filtro.dataDe" />
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="col-12 col-md">
+                <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Data até</mat-label>
+                    <input matInput [matDatepicker]="picker2" [(ngModel)]="filtro.dataAte" />
+                    <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+                    <mat-datepicker #picker2></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="col-12 col-md">
+                <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Conta</mat-label>
+                    <input matInput [(ngModel)]="filtro.conta" />
+                </mat-form-field>
+            </div>
+            <div class="col-12 col-md">
+                <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Status</mat-label>
+                    <mat-select [(ngModel)]="filtro.status">
+                        <mat-option [value]="null">Todos</mat-option>
+                        <mat-option [value]="status.Pago">Pago</mat-option>
+                        <mat-option [value]="status.Pendente">Pendente</mat-option>
+                        <mat-option [value]="status.Cancelado">Cancelado</mat-option>
+                        <mat-option [value]="status.Rejeitado">Rejeitado</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div class="col-12 col-md">
+                <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Pagamento via</mat-label>
+                    <mat-select [(ngModel)]="filtro.tipoPagamento">
+                        <mat-option [value]="null">Todos</mat-option>
+                        <mat-option [value]="tipoPagamento.Pix">Pix</mat-option>
+                        <mat-option [value]="tipoPagamento.USDT">USDT</mat-option>
+                        <mat-option [value]="tipoPagamento.BTC">Bitcoin</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col d-flex justify-content-center">
+                <button mat-flat-button color="primary" (click)="buscar()">BUSCAR</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-carregando *ngIf="carregando"></app-carregando>
+
+<div class="p-x-24 m-b-30">
+    <div class="row" *ngIf="!carregando">
+        <div class="col-12 col-md py-2">
+            <div class="card grd-card">
+                <div class="card-body">
+                    <div class="media align-items-center">
+                        <div class="media-body me-2">
+                            <h2 class="text-white font-w600">{{ pago | currency : "R$ " }}</h2>
+                            <span class="text-white">Pago</span>
+                            <!-- <div class="d-flex flex-column mt-4">
+                                <h4 class="text-white font-w600 p-0 m-0">{{ reinvestido | currency : "R$ " }}</h4>
+                                <span class="text-white">Reinvestido</span>
+                            </div>
+                            <div class="d-flex flex-column mt-4">
+                                <h4 class="text-white font-w600 p-0 m-0">{{ pago - reinvestido | currency : "R$ " }}
+                                </h4>
+                                <span class="text-white">Investimento Direto</span>
+                            </div> -->
+                        </div>
+                        <div class="d-inline-block position-relative donut-chart-sale" style="margin-right: 10px">
+                            <small class="text-primary">
+                                <i class="fa fa-check" aria-hidden="true"></i>
+                            </small>
+                            <span class="circle bg-white"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md py-2">
+            <div class="card grd-card">
+                <div class="card-body">
+                    <div class="media align-items-center">
+                        <div class="media-body me-2">
+                            <h2 class="text-white font-w600">{{ pendente | currency : "R$ " }}</h2>
+                            <span class="text-white">Pendente</span>
+                        </div>
+                        <div class="d-inline-block position-relative donut-chart-sale" style="margin-right: 10px">
+                            <small class="text-primary">
+                                <i class="fa fa-warning" aria-hidden="true"></i>
+                            </small>
+                            <span class="circle bg-white"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md py-2">
+            <div class="card grd-card">
+                <div class="card-body">
+                    <div class="media align-items-center">
+                        <div class="media-body me-2">
+                            <h2 class="text-white font-w600">{{ cancelado | currency : "R$ " }}</h2>
+                            <span class="text-white">Cancelado</span>
+                        </div>
+                        <div class="d-inline-block position-relative donut-chart-sale" style="margin-right: 10px">
+                            <small class="text-primary">
+                                <i class="fa fa-close" aria-hidden="true"></i>
+                            </small>
+                            <span class="circle bg-white"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card" *ngIf="!carregando">
+    <div class="card-header">
+        <mat-card-title class="m-b-0">Lista</mat-card-title>
+    </div>
+    <div class="card-body" *ngIf="lista.lista.length > 0">
+        <div class="table-responsive">
+            <table mat-table [dataSource]="lista.lista" class="table table-striped">
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1">Código</th>
+                    <td mat-cell *matCellDef="let element" class="mat-body-1">
+                        {{ element.id }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="conta">
+                    <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1">Conta</th>
+                    <td mat-cell *matCellDef="let element" class="mat-body-1">
+                        <div class="d-flex flex-column py-1">
+                            <b class="text-uppercase">{{ element.contaNome }}</b>
+                            <small>{{ element.contaEmail }}</small>
+                        </div>
+                    </td>
+                </ng-container>
+
+
+
+
+                <ng-container matColumnDef="status">
+                    <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1">Status</th>
+                    <td mat-cell *matCellDef="let element" class="mat-body-1">
+                        <span class="bg-success text-white rounded p-2" *ngIf="element.status == status.Pago"> Pago
+                        </span>
+                        <span class="bg-danger text-white rounded p-2" *ngIf="element.status == status.Cancelado">
+                            Cancelado
+                        </span>
+                        <span class="bg-danger text-white rounded p-2" *ngIf="element.status == status.Rejeitado">
+                            Rejeitado
+                        </span>
+                        <span class="bg-warning text-white rounded p-2" *ngIf="element.status == status.Pendente">
+                            Pendente
+                        </span>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="telefone">
+                    <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1">Telefone</th>
+                    <td mat-cell *matCellDef="let element" class="mat-body-1">
+                        {{ element.telefone }}
+                        <div class="d-flex mt-2" *ngIf="element.telefone?.length ?? 0 > 0">
+                            <button mat-icon-button (click)="abrirWhatsapp(element.telefone)">
+                                <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+                            </button>
+                            <button mat-icon-button (click)="copiar(element.telefone)">
+                                <i class="fa fa-copy" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="valor">
+                    <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1">Valor</th>
+                    <td mat-cell *matCellDef="let element" class="mat-body-1">
+                        <div class="d-flex flex-column align-items-start py-2">
+                            {{ element.valor | currency : "R$ " }}
+
+                            <small class="bg-light-success text-success rounded f-w-600 p-6 p-y-4 f-s-12 mt-1"
+                                *ngIf="element.tipoPagamento == tipoPagamento.USDT">{{ element.valorDolar | currency :
+                                "$ "
+                                }}</small>
+                            <small class="bg-light-success text-success rounded f-w-600 p-6 p-y-4 f-s-12 mt-1"
+                                *ngIf="element.tipoPagamento == tipoPagamento.BTC">{{ element.valorBTC }}</small>
+                        </div>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="quantidadeCripto">
+                    <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1">Quantidade Cripto</th>
+                    <td mat-cell *matCellDef="let element" class="mat-body-1">
+                        <div class="d-flex flex-column align-items-start py-2">
+                            {{ element.quantidadeCripto }}
+                        </div>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="tipoPagamento">
+                    <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1">Pagamento via</th>
+                    <td mat-cell *matCellDef="let element" class="mat-body-1">
+                        <span *ngIf="element.tipoPagamento == tipoPagamento.Pix">Pix</span>
+                        <span *ngIf="element.tipoPagamento == tipoPagamento.USDT">USDT</span>
+                        <span *ngIf="element.tipoPagamento == tipoPagamento.BTC">Bitcoin</span>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="data">
+                    <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1">Data</th>
+                    <td mat-cell *matCellDef="let element" class="mat-body-1">
+                        {{ element.data }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="acoes">
+                    <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1"></th>
+                    <td mat-cell *matCellDef="let element" class="mat-body-1 text-end">
+                        <button mat-icon-button [matMenuTriggerFor]="menu">
+                            <mat-icon>
+                                <i-tabler name="dots" class="icon-20"></i-tabler>
+                            </mat-icon>
+                        </button>
+                        <mat-menu #menu="matMenu" class="cardWithShadow">
+                            <button mat-menu-item (click)="aprovar(element)" *ngIf="element.status == status.Pendente">
+                                <mat-icon>check</mat-icon>
+                                <span>Aprovar</span>
+                            </button>
+                            <button mat-menu-item (click)="rejeitar(element)" *ngIf="element.status == status.Pendente">
+                                <mat-icon>close</mat-icon>
+                                <span>Rejeitar</span>
+                            </button>
+                            <button mat-menu-item (click)="alerarStatus(element, status.Cancelado)"
+                                *ngIf="element.status != status.Cancelado">
+                                <mat-icon>close</mat-icon>
+                                <span>Cancelar</span>
+                            </button>
+                        </mat-menu>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            </table>
+        </div>
+    </div>
+    <div class="card-footer" *ngIf="lista.lista.length > 0">
+        <app-paginacao [lista]="lista" [pagina]="filtro.pagina"
+            (alterarPaginaEvent)="alterarPagina($event)"></app-paginacao>
+    </div>
+    <div class="card-footer" *ngIf="lista.lista.length == 0">
+        <app-lista-vazia></app-lista-vazia>
+    </div>
+</div>

@@ -1,0 +1,11 @@
+<app-titulo titulo="Rede de Afiliados"></app-titulo>
+
+<app-carregando *ngIf="carregando"></app-carregando>
+
+<div class="card" *ngIf="!carregando">
+	<div class="card-body">
+		<div class="table-responsive">
+			<app-item-arvore [lista]="lista" />
+		</div>
+	</div>
+</div>

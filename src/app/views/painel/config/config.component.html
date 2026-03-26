@@ -1,0 +1,291 @@
+<app-titulo titulo="Configurações"></app-titulo>
+
+<app-carregando *ngIf="carregando"></app-carregando>
+
+<div class="card" *ngIf="!carregando">
+	<div class="card-body">
+		<mat-card-content class="b-t-1">
+			<mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+				<mat-tab>
+					<ng-template mat-tab-label>
+						<i-tabler name="replace" class="me-3"></i-tabler>
+						Saque
+					</ng-template>
+					<mat-form-field appearance="outline" class="w-100 mt-5">
+						<mat-label>Taxa de Saque %</mat-label>
+						<input matInput [(ngModel)]="model.taxaSaque" mask="separator.2" />
+					</mat-form-field>
+					<mat-form-field appearance="outline" class="w-100">
+						<mat-label>Mínimo de Saque</mat-label>
+						<input matInput [(ngModel)]="model.minimoSaque" mask="separator.2" />
+					</mat-form-field>
+
+					<h1>Rendimento</h1>
+					<b class="mt-1 mb-2 d-flex">Dias de saque</b>
+					<mat-chip-option *ngFor="let dia of dias" [value]="dia" [selected]="isDiaInDiasSaque(dia)"
+						(click)="toggleDiaSaque(dia)" class="me-2">
+						{{ dia }}
+					</mat-chip-option>
+
+					<b class="mt-3 d-flex">Horário</b>
+					<div class="row mt-3">
+						<div class="col-6">
+							<mat-form-field appearance="outline" class="w-100">
+								<mat-label>Início</mat-label>
+								<input matInput [(ngModel)]="model.saqueInicio" [ngxTimepicker]="picker"
+									[format]="24" />
+								<ngx-material-timepicker #picker></ngx-material-timepicker>
+							</mat-form-field>
+						</div>
+						<div class="col-6">
+							<mat-form-field appearance="outline" class="w-100">
+								<mat-label>Fim</mat-label>
+								<input matInput [(ngModel)]="model.saqueFim" [ngxTimepicker]="picker2" [format]="24" />
+								<ngx-material-timepicker #picker2></ngx-material-timepicker>
+							</mat-form-field>
+						</div>
+					</div>
+
+					<h1>Bônus</h1>
+					<b class="mt-1 mb-2 d-flex">Dias de saque</b>
+					<mat-chip-option *ngFor="let dia of dias" [value]="dia" [selected]="isDiaInDiasSaqueBonus(dia)"
+						(click)="toggleDiaSaqueBonus(dia)" class="me-2">
+						{{ dia }}
+					</mat-chip-option>
+
+					<b class="mt-3 d-flex">Horário</b>
+					<div class="row mt-3">
+						<div class="col-6">
+							<mat-form-field appearance="outline" class="w-100">
+								<mat-label>Início</mat-label>
+								<input matInput [(ngModel)]="model.saqueInicioBonus" [ngxTimepicker]="pickerBonus"
+									[format]="24" />
+								<ngx-material-timepicker #pickerBonus></ngx-material-timepicker>
+							</mat-form-field>
+						</div>
+						<div class="col-6">
+							<mat-form-field appearance="outline" class="w-100">
+								<mat-label>Fim</mat-label>
+								<input matInput [(ngModel)]="model.saqueFimBonus" [ngxTimepicker]="pickerBonus2"
+									[format]="24" />
+								<ngx-material-timepicker #pickerBonus2></ngx-material-timepicker>
+							</mat-form-field>
+						</div>
+					</div>
+				</mat-tab>
+				<mat-tab>
+					<ng-template mat-tab-label>
+						<i-tabler name="affiliate" class="me-3"></i-tabler>
+						Unilevel
+					</ng-template>
+					<mat-form-field appearance="outline" class="w-100 mt-5">
+						<mat-label>Direto</mat-label>
+						<input matInput [(ngModel)]="model.unilevel1" mask="separator.2" />
+					</mat-form-field>
+					<mat-form-field appearance="outline" class="w-100">
+						<mat-label>Nivel 2</mat-label>
+						<input matInput [(ngModel)]="model.unilevel2" mask="separator.2" />
+					</mat-form-field>
+					<mat-form-field appearance="outline" class="w-100">
+						<mat-label>Nivel 3</mat-label>
+						<input matInput [(ngModel)]="model.unilevel3" mask="separator.2" />
+					</mat-form-field>
+					<mat-form-field appearance="outline" class="w-100">
+						<mat-label>Nivel 4</mat-label>
+						<input matInput [(ngModel)]="model.unilevel4" mask="separator.2" />
+					</mat-form-field>
+					<mat-form-field appearance="outline" class="w-100">
+						<mat-label>Nivel 5</mat-label>
+						<input matInput [(ngModel)]="model.unilevel5" mask="separator.2" />
+					</mat-form-field>
+					<mat-form-field appearance="outline" class="w-100">
+						<mat-label>Nivel 6</mat-label>
+						<input matInput [(ngModel)]="model.unilevel6" mask="separator.2" />
+					</mat-form-field>
+					<mat-form-field appearance="outline" class="w-100">
+						<mat-label>Nivel 7</mat-label>
+						<input matInput [(ngModel)]="model.unilevel7" mask="separator.2" />
+					</mat-form-field>
+					<mat-form-field appearance="outline" class="w-100">
+						<mat-label>Nivel 8</mat-label>
+						<input matInput [(ngModel)]="model.unilevel8" mask="separator.2" />
+					</mat-form-field>
+					<mat-form-field appearance="outline" class="w-100">
+						<mat-label>Nivel 9</mat-label>
+						<input matInput [(ngModel)]="model.unilevel9" mask="separator.2" />
+					</mat-form-field>
+					<mat-form-field appearance="outline" class="w-100">
+						<mat-label>Nivel 10</mat-label>
+						<input matInput [(ngModel)]="model.unilevel10" mask="separator.2" />
+					</mat-form-field>
+				</mat-tab>
+				<mat-tab>
+					<ng-template mat-tab-label>
+						<i-tabler name="percentage" class="me-3"></i-tabler>
+						Residual
+					</ng-template>
+					<mat-form-field appearance="outline" class="w-100 mt-5">
+						<mat-label>Direto</mat-label>
+						<input matInput [(ngModel)]="model.residual1" mask="separator.2" />
+					</mat-form-field>
+					<mat-form-field appearance="outline" class="w-100">
+						<mat-label>Nivel 2</mat-label>
+						<input matInput [(ngModel)]="model.residual2" mask="separator.2" />
+					</mat-form-field>
+					<mat-form-field appearance="outline" class="w-100">
+						<mat-label>Nivel 3</mat-label>
+						<input matInput [(ngModel)]="model.residual3" mask="separator.2" />
+					</mat-form-field>
+					<mat-form-field appearance="outline" class="w-100">
+						<mat-label>Nivel 4</mat-label>
+						<input matInput [(ngModel)]="model.residual4" mask="separator.2" />
+					</mat-form-field>
+					<mat-form-field appearance="outline" class="w-100">
+						<mat-label>Nivel 5</mat-label>
+						<input matInput [(ngModel)]="model.residual5" mask="separator.2" />
+					</mat-form-field>
+					<mat-form-field appearance="outline" class="w-100">
+						<mat-label>Nivel 6</mat-label>
+						<input matInput [(ngModel)]="model.residual6" mask="separator.2" />
+					</mat-form-field>
+					<mat-form-field appearance="outline" class="w-100">
+						<mat-label>Nivel 7</mat-label>
+						<input matInput [(ngModel)]="model.residual7" mask="separator.2" />
+					</mat-form-field>
+					<mat-form-field appearance="outline" class="w-100">
+						<mat-label>Nivel 8</mat-label>
+						<input matInput [(ngModel)]="model.residual8" mask="separator.2" />
+					</mat-form-field>
+					<mat-form-field appearance="outline" class="w-100">
+						<mat-label>Nivel 9</mat-label>
+						<input matInput [(ngModel)]="model.residual9" mask="separator.2" />
+					</mat-form-field>
+					<mat-form-field appearance="outline" class="w-100">
+						<mat-label>Nivel 10</mat-label>
+						<input matInput [(ngModel)]="model.residual10" mask="separator.2" />
+					</mat-form-field>
+				</mat-tab>
+				<mat-tab>
+					<ng-template mat-tab-label>
+						<i-tabler name="photo-scan" class="me-3"></i-tabler>
+						Banners
+					</ng-template>
+
+
+					<div class="form-group mt-5">
+						<div class="d-flex justify-content-center mb-1"><b>Banner 1</b></div>
+						<input type="file" (change)="onFileChangeBanner1($event)" class="d-none" id="imgBanner1" />
+
+						<label
+							class="w-100 d-flex justify-content-center align-items-center flex-column p-3 rounded-2 bg-light py-5"
+							*ngIf="!model.banner1" role="button" for="imgBanner1">
+							<mat-icon class="icon-cloud
+									              ">cloud_upload</mat-icon>
+							<small class="text-center">Clique para selecionar uma imagem</small>
+						</label>
+
+						<div *ngIf="model.banner1"
+							class="w-100 d-flex justify-content-center align-items-center flex-column p-3 rounded-2 bg-light"
+							role="button">
+							<div>
+								<img [src]="helper.imagemExibirSrc(model.banner1)" alt="Imagem Selecionada"
+									class="w-100" />
+								<button mat-icon-button (click)="model.banner1 = ''">
+									<mat-icon>delete</mat-icon>
+								</button>
+							</div>
+						</div>
+					</div>
+					<div class="form-group mt-5">
+						<div class="d-flex justify-content-center mb-1"><b>Banner 2</b></div>
+						<input type="file" (change)="onFileChangeBanner2($event)" class="d-none" id="imgBanner2" />
+						<label
+							class="w-100 d-flex justify-content-center align-items-center flex-column p-3 rounded-2 bg-light py-5"
+							*ngIf="!model.banner2" role="button" for="imgBanner2">
+							<mat-icon class="icon-cloud
+									              ">cloud_upload</mat-icon>
+							<small class="text-center">Clique para selecionar uma imagem</small>
+						</label>
+						<div *ngIf="model.banner2"
+							class="w-100 d-flex justify-content-center align-items-center flex-column p-3 rounded-2 bg-light"
+							role="button">
+							<div>
+								<img [src]="helper.imagemExibirSrc(model.banner2)" alt="Imagem Selecionada"
+									class="w-100" />
+								<button mat-icon-button (click)="model.banner2 = ''">
+									<mat-icon>delete</mat-icon>
+								</button>
+							</div>
+						</div>
+					</div>
+
+					<div class="form-group mt-5 mb-5">
+						<div class="d-flex justify-content-center mb-1"><b>Banner 3</b></div>
+						<input type="file" (change)="onFileChangeBanner3($event)" class="d-none" id="imgBanner3" />
+						<label
+							class="w-100 d-flex justify-content-center align-items-center flex-column p-3 rounded-2 bg-light py-5"
+							*ngIf="!model.banner3" role="button" for="imgBanner3">
+							<mat-icon class="icon-cloud
+									              ">cloud_upload</mat-icon>
+							<small class="text-center">Clique para selecionar uma imagem</small>
+						</label>
+						<div *ngIf="model.banner3"
+							class="w-100 d-flex justify-content-center align-items-center flex-column p-3 rounded-2 bg-light"
+							role="button">
+							<div>
+								<img [src]="helper.imagemExibirSrc(model.banner3)" alt="Imagem Selecionada"
+									class="w-100" />
+								<button mat-icon-button (click)="model.banner3 = ''">
+									<mat-icon>delete</mat-icon>
+								</button>
+							</div>
+						</div>
+					</div>
+
+				</mat-tab>
+				<!-- <mat-tab>
+				<ng-template mat-tab-label>
+					<i-tabler name="box-multiple-1" class="me-3"></i-tabler>
+					Valores
+				</ng-template>
+				<mat-form-field appearance="outline" class="w-100 mt-5">
+					<mat-label>Teto Global</mat-label>
+					<input matInput [(ngModel)]="model.teto" mask="separator.2" />
+				</mat-form-field>
+				<mat-form-field appearance="outline" class="w-100">
+					<mat-label>Valor mínimo de contrato</mat-label>
+					<input matInput [(ngModel)]="model.valorMinimo" mask="separator.2" />
+				</mat-form-field>
+			</mat-tab> -->
+
+				<!-- <mat-tab>
+					<ng-template mat-tab-label>
+						<i-tabler name="device-mobile-message" class="me-3"></i-tabler>
+						Contato
+					</ng-template>
+					<mat-form-field appearance="outline" class="w-100 mt-5">
+						<mat-label>Whatsapp</mat-label>
+						<input matInput [(ngModel)]="model.whatsapp" />
+					</mat-form-field>
+					<mat-form-field appearance="outline" class="w-100">
+						<mat-label>Grupo do Whatsapp</mat-label>
+						<input matInput [(ngModel)]="model.whatsappGrupo" />
+					</mat-form-field>
+				</mat-tab> -->
+				<!-- <mat-tab>
+					<ng-template mat-tab-label>
+						<i-tabler name="coin" class="me-3"></i-tabler>
+						Cripto
+					</ng-template>
+					<mat-form-field appearance="outline" class="w-100 mt-5">
+						<mat-label>Valor de uma moeda em Reais</mat-label>
+						<input matInput [(ngModel)]="model.valorCripto" />
+					</mat-form-field>
+				</mat-tab> -->
+			</mat-tab-group>
+		</mat-card-content>
+		<mat-card-footer class="p-3">
+			<button mat-button class="bg-light-success text-success" (click)="salvar()">Salvar</button>
+		</mat-card-footer>
+	</div>
+</div>

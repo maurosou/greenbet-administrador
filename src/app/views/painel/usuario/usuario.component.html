@@ -1,0 +1,130 @@
+<app-titulo titulo="Usuários do Sistema"></app-titulo>
+
+<div class="card">
+	<div class="card-header">
+		<h4 class="card-title">Filtros</h4>
+	</div>
+	<div class="card-body">
+		<div class="row">
+			<div class="col-12 col-md">
+				<mat-form-field appearance="outline" class="w-100">
+					<mat-label>Nome</mat-label>
+					<input matInput [(ngModel)]="filtro.nome" />
+				</mat-form-field>
+			</div>
+			<div class="col-12 col-md">
+				<mat-form-field appearance="outline" class="w-100">
+					<mat-label>Email</mat-label>
+					<input matInput [(ngModel)]="filtro.email" />
+				</mat-form-field>
+			</div>
+			<div class="col-12 col-md">
+				<mat-form-field appearance="outline" class="w-100">
+					<mat-label>Status</mat-label>
+					<mat-select [(ngModel)]="filtro.status">
+						<mat-option [value]="null">Todos</mat-option>
+						<mat-option [value]="status.Habilitado">Habilitado</mat-option>
+						<mat-option [value]="status.Desabilitado">Desabilitado</mat-option>
+					</mat-select>
+				</mat-form-field>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col d-flex justify-content-center">
+				<button mat-flat-button color="primary" (click)="buscar()">BUSCAR</button>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<app-carregando *ngIf="carregando"></app-carregando>
+
+<div class="card" *ngIf="!carregando">
+	<div class="card-header">
+		<div class="d-flex justify-content-between w-100">
+			<mat-card-title class="m-b-0">
+				<span>Lista</span>
+			</mat-card-title>
+		</div>
+		<button mat-fab extended color="primary" (click)="novo()">
+			<mat-icon>add</mat-icon>
+			Novo
+		</button>
+	</div>
+	<div class="card-body" *ngIf="lista.lista.length > 0">
+		<div class="table-responsive">
+			<table mat-table [dataSource]="lista.lista" class="table table-striped">
+				<ng-container matColumnDef="usuario">
+					<th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1">Usuário</th>
+					<td mat-cell *matCellDef="let element" class="mat-body-1">
+						<b>{{ element.usuario }}</b>
+					</td>
+				</ng-container>
+
+				<ng-container matColumnDef="nome">
+					<th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1">Nome</th>
+					<td mat-cell *matCellDef="let element" class="mat-body-1">
+						{{ element.nome }}
+					</td>
+				</ng-container>
+
+				<ng-container matColumnDef="email">
+					<th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1">Email</th>
+					<td mat-cell *matCellDef="let element" class="mat-body-1">
+						{{ element.email }}
+					</td>
+				</ng-container>
+
+				<ng-container matColumnDef="status">
+					<th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1">Status</th>
+					<td mat-cell *matCellDef="let element" class="mat-body-1">
+						<span class="bg-light-success text-success rounded f-w-600 p-6 p-y-4 f-s-12"
+							*ngIf="element.status == status.Habilitado">
+							Habilitado
+						</span>
+						<span class="bg-light-error text-error rounded f-w-600 p-6 p-y-4 f-s-12"
+							*ngIf="element.status == status.Desabilitado">
+							Desabilitado
+						</span>
+					</td>
+				</ng-container>
+
+				<ng-container matColumnDef="acoes">
+					<th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 mat-subtitle-1"></th>
+					<td mat-cell *matCellDef="let element" class="mat-body-1 text-end">
+						<button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+							<mat-icon>
+								<i-tabler name="dots" class="icon-20"></i-tabler>
+							</mat-icon>
+						</button>
+						<mat-menu #menu="matMenu" class="cardWithShadow">
+							<button mat-menu-item (click)="alterarStatus(element, status.Habilitado)">
+								<mat-icon>check</mat-icon>
+								<span>Habilitado</span>
+							</button>
+							<button mat-menu-item (click)="alterarStatus(element, status.Desabilitado)">
+								<mat-icon>close</mat-icon>
+								<span>Desabilitado</span>
+							</button>
+							<button mat-menu-item (click)="excluir(element)">
+								<mat-icon>close</mat-icon>
+								<span>Excluir</span>
+							</button>
+						</mat-menu>
+					</td>
+				</ng-container>
+
+				<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+				<tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+			</table>
+		</div>
+	</div>
+	<div class="card-footer" *ngIf="lista.lista.length > 0">
+		<app-paginacao [lista]="lista" [pagina]="filtro.pagina"
+			(alterarPaginaEvent)="alterarPagina($event)"></app-paginacao>
+	</div>
+	<div class="card-footer" *ngIf="lista.lista.length == 0">
+		<app-lista-vazia></app-lista-vazia>
+	</div>
+</div>

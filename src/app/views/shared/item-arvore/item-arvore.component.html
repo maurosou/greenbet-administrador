@@ -1,0 +1,35 @@
+<div class="organogram" *ngIf="lista.length > 0">
+	<div class="node" *ngFor="let user of lista">
+		<div class="d-flex align-items-center gap-2">
+			<ng-container *ngIf="user.sub?.length ?? 0 > 0; else elseTemplate">
+				<button mat-icon-button (click)="toggleAberto(user)">
+					<mat-icon>{{ aberto[user.nome!] ? "expand_more" : "chevron_right" }}</mat-icon>
+				</button>
+			</ng-container>
+			<ng-template #elseTemplate>
+				<button mat-icon-button [disabled]="true">
+					<mat-icon></mat-icon>
+				</button>
+			</ng-template>
+
+			<span class="text-uppercase">{{ user.usuario }}</span>
+			<button mat-icon-button [matMenuTriggerFor]="menu" color="primary">
+				<mat-icon>info</mat-icon>
+			</button>
+			<mat-menu #menu="matMenu">
+				<span mat-menu-item class="text-uppercase">Nome: {{ user.nome }}</span>
+				<span mat-menu-item class="text-uppercase">Email: {{ user.email }}</span>
+				<span mat-menu-item class="text-uppercase">Telefone: {{ user.telefone }}</span>
+				<ng-container *ngIf="user.ativo; else elseTemplateAtivo">
+					<span mat-menu-item class="bg-light-accent text-accent text-uppercase"> Ativo </span>
+				</ng-container>
+				<ng-template #elseTemplateAtivo>
+					<span mat-menu-item class="bg-light-error text-error text-uppercase"> Inativo </span>
+				</ng-template>
+			</mat-menu>
+		</div>
+		<div class="children" *ngIf="aberto[user.nome!]">
+			<app-item-arvore [lista]="user.sub ?? []"></app-item-arvore>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,16 @@
+<h2 mat-dialog-title>Saque de Sócio</h2>
+
+<mat-dialog-content *ngIf="carregando">
+	<app-carregando></app-carregando>
+</mat-dialog-content>
+<mat-dialog-content class="mat-typography pt-4" *ngIf="!carregando">
+	<div class="alert alert-warning" role="alert">
+		<b>Confira se a carteira esta cadastrada esta operação não poderá ser desfeita</b><br>
+		Você tem certeza que deseja continuar com o saque?
+	</div>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end" *ngIf="!carregando">
+	<button mat-button (click)="fechar()">Cancelar</button>
+	<button mat-button class="bg-light-success text-success" (click)="salvar()">Finalizar</button>
+</mat-dialog-actions>

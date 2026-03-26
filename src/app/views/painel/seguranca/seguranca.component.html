@@ -1,0 +1,20 @@
+<app-titulo titulo="Segurança"></app-titulo>
+
+<app-carregando *ngIf="carregando"></app-carregando>
+
+<div class="card" *ngIf="!carregando">
+	<div class="card-body">
+		<mat-form-field appearance="outline" class="w-100">
+			<mat-label>Senha</mat-label>
+			<input matInput [(ngModel)]="senha" type="password" />
+		</mat-form-field>
+		<mat-form-field appearance="outline" class="w-100">
+			<mat-label>Confirmar Senha</mat-label>
+			<input matInput [(ngModel)]="confirmarSenha" type="password" />
+		</mat-form-field>
+	</div>
+	<div class="card-footer">
+		<button mat-button class="bg-light-success text-success" (click)="salvar()">Salvar</button>
+
+	</div>
+</div>

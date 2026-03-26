@@ -1,0 +1,37 @@
+@import "ngx-toastr/toastr";
+
+html,
+body {
+	height: 100%;
+}
+
+body {
+	margin: 0;
+	font-family: Roboto, "Plus Jakarta Sans", sans-serif;
+}
+
+.admin-logo {
+	padding: 8px 10px;
+	background-color: #0b0b0b;
+	border-radius: 10px;
+	display: inline-block;
+}
+
+.mat-table {
+	overflow: auto;
+	max-height: 500px;
+}
+
+.bg-primary-tema {
+	background-color: blck !important;
+}
+
+.toast-container {
+	z-index: 9999;
+	position: fixed;
+}
+
+.modal-observacao-panel .mat-mdc-dialog-container .mdc-dialog__surface {
+	background: #ffffff;
+	border-radius: 12px;
+}
