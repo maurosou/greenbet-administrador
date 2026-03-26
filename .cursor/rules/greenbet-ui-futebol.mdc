@@ -1,0 +1,44 @@
+---
+description: Identidade visual GreenBet — tema futebol, verde e imagens de fundo
+alwaysApply: true
+---
+
+# UI GreenBet: futebol + verde
+
+O produto é **futebol / estádio / gramado**, não um painel “fintech genérico”. Telas Angular do **administrador** devem seguir a mesma linguagem do **greenbet-cliente** quando houver UI (cards, tabelas, headers).
+
+## Paleta (marca)
+
+- **Verde principal:** `#00C853` (e variantes como `#009624` para sombras).
+- **Limão / destaque:** `#76FF03`.
+- **Neon suave em texto:** `rgba(0, 230, 118, 0.85)` para kickers e labels de destaque.
+- **Fundo:** `#0A0A0A`, `#111111`, verdes muito escuros (`rgba(6, 12, 10, …)`).
+- **Texto secundário:** `#9E9E9E`, `#757575`.
+
+**Evitar** como identidade principal: gradientes **ciano + roxo/violeta**, botões **roxo/azul** “tech”, bordas só em tons frios sem verde.
+
+## Imagens de fundo
+
+Em cards hero, filtros e seções destacadas, usar quando fizer sentido **foto de contexto esportivo** (gramado, estádio, bola), com:
+
+1. **Overlay escuro** (`linear-gradient` preto/verde escuro).
+2. Opcional: listras diagonais leves em verde.
+3. **Borda** `rgba(0, 255, 140, 0.2)` aproximadamente.
+
+Reutilize o mesmo padrão visual do cliente ou variáveis/CSS alinhados ao tema futebol.
+
+## Botões primários
+
+Gradiente **verde → limão**, texto escuro, sombra com tonalidade verde.
+
+## Tipografia
+
+- Títulos: **Bebas Neue** / **Chakra Petch**.
+- Corpo: **Inter**.
+
+## Checklist rápido
+
+- [ ] Presença de **futebol** (imagem ou metáfora estádio/gramado) onde couber?
+- [ ] **Verde** como cor dominante de ação e moldura?
+- [ ] **Overlay** sobre fotos para leitura?
+- [ ] Sem paleta **ciano/roxo** como identidade principal da tela?
