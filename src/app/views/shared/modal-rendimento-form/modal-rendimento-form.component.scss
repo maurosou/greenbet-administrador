@@ -1,0 +1,9 @@
+/* Garante área clicável e altura mínima do select no diálogo */
+.modal-rendimento-form__content {
+	min-width: min(100%, 320px);
+}
+
+.form-select {
+	min-height: 42px;
+	font-size: 0.95rem;
+}

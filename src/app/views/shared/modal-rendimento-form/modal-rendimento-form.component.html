@@ -1,20 +1,54 @@
 <h2 mat-dialog-title>Novo Rendimento</h2>
-<mat-dialog-content *ngIf="carregando">
-	<app-carregando></app-carregando>
+
+<mat-dialog-content class="mat-typography modal-rendimento-form__content">
+	<ng-container *ngIf="carregando">
+		<app-carregando></app-carregando>
+	</ng-container>
+
+	<div *ngIf="!carregando" class="pt-2">
+		<p class="text-muted mb-3" style="margin-top: 0">
+			Informe a casa, o percentual e a data desta rodada.
+		</p>
+		<div *ngIf="usandoFallbackCasas" class="alert alert-warning py-2 small mb-3" role="status">
+			Usando lista local de casas; a API não retornou dados.
+		</div>
+
+		<!-- Select nativo (Bootstrap): mat-form-field+matNativeControl some em alguns diálogos Material. -->
+		<div class="mb-3">
+			<label class="form-label fw-semibold" for="casaApostaSelect">Casa de apostas</label>
+			<select
+				id="casaApostaSelect"
+				class="form-select"
+				[(ngModel)]="model.casaApostaCodigo"
+				name="casaApostaCodigo"
+				required
+			>
+				<option *ngFor="let c of casas" [value]="c.codigo">{{ c.nome }}</option>
+			</select>
+		</div>
+
+		<mat-form-field appearance="outline" class="w-100">
+			<mat-label>Valor (Percentual do dia %)</mat-label>
+			<input matInput [(ngModel)]="model.valor" name="valorRend" mask="separator.2" />
+		</mat-form-field>
+		<mat-form-field appearance="outline" class="w-100">
+			<mat-label>Data</mat-label>
+			<input matInput [matDatepicker]="picker" [(ngModel)]="model.data" name="dataRend" />
+			<mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+			<mat-datepicker #picker></mat-datepicker>
+		</mat-form-field>
+	</div>
 </mat-dialog-content>
-<mat-dialog-content class="mat-typography pt-4" *ngIf="!carregando">
-	<mat-form-field appearance="outline" class="w-100">
-		<mat-label>Valor (Percentual do dia %)</mat-label>
-		<input matInput [(ngModel)]="model.valor" mask="separator.2" />
-	</mat-form-field>
-	<mat-form-field appearance="outline" class="w-100">
-		<mat-label>Data</mat-label>
-		<input matInput [matDatepicker]="picker" [(ngModel)]="model.data" />
-		<mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-		<mat-datepicker #picker></mat-datepicker>
-	</mat-form-field>
-</mat-dialog-content>
+
 <mat-dialog-actions align="end" *ngIf="!carregando">
-	<button mat-button (click)="fechar()">Cancelar</button>
-	<button mat-button class="bg-light-success text-success" (click)="salvar()">Salvar</button>
+	<button mat-button type="button" (click)="fechar()">Cancelar</button>
+	<button
+		mat-button
+		class="bg-light-success text-success"
+		type="button"
+		[disabled]="model.valor == null || !model.data || !model.casaApostaCodigo"
+		(click)="salvar()"
+	>
+		Salvar
+	</button>
 </mat-dialog-actions>
