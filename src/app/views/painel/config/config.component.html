@@ -78,16 +78,9 @@
 						<i-tabler name="device-mobile-message" class="me-3"></i-tabler>
 						Contato / WhatsApp
 					</ng-template>
-					<p class="text-muted small mt-4 mb-2">
-						<strong>Telefone do suporte</strong> (somente números com DDI, ex.: 5511999998888). Usado no botão flutuante do painel do cliente.
-					</p>
-					<mat-form-field appearance="outline" class="w-100 mt-2">
+					<mat-form-field appearance="outline" class="w-100 mt-5">
 						<mat-label>Telefone WhatsApp</mat-label>
 						<input matInput [(ngModel)]="model.whatsapp" type="tel" autocomplete="tel" placeholder="5511999998888" />
-					</mat-form-field>
-					<mat-form-field appearance="outline" class="w-100">
-						<mat-label>Link do grupo do WhatsApp</mat-label>
-						<input matInput [(ngModel)]="model.whatsappGrupo" placeholder="https://chat.whatsapp.com/..." />
 					</mat-form-field>
 				</mat-tab>
 				<mat-tab>
