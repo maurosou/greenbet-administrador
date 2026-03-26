@@ -6,6 +6,7 @@ import { RendimentoFiltroModel } from 'src/app/models/rendimento-filtro.model';
 import { RendimentoListaModel } from 'src/app/models/rendimento-lista.model';
 import { RendimentoService } from 'src/app/services/rendimento.service';
 import { ModalRendimentoFormComponent } from '../../shared/modal-rendimento-form/modal-rendimento-form.component';
+import { ModalExecutarRendimentoComponent } from '../../shared/modal-executar-rendimento/modal-executar-rendimento.component';
 
 @Component({
 	selector: 'app-rendimento',
@@ -28,7 +29,7 @@ export class RendimentoComponent {
 		totalRegistro: 0,
 	};
 
-	displayedColumns: string[] = ['data', 'valor', 'quantidadePago', 'status', 'acoes'];
+	displayedColumns: string[] = ['data', 'valor', 'quantidadePago', 'casa', 'status', 'acoes'];
 
 	constructor(private redimentoService: RendimentoService, public dialog: MatDialog) {
 		this.carregar();
@@ -63,12 +64,16 @@ export class RendimentoComponent {
 	}
 
 	executar(item: RendimentoListaModel) {
-		item.status = RendimentoStatusEnum.Executando;
-		this.redimentoService.executar(item.id).subscribe(
-			() => {
+		const dialogRef = this.dialog.open(ModalExecutarRendimentoComponent, {
+			width: '440px',
+			maxWidth: '96vw',
+			data: { id: item.id },
+		});
+		dialogRef.afterClosed().subscribe((ok) => {
+			if (ok) {
 				this.carregar();
 			}
-		);
+		});
 	}
 
 	novo() {

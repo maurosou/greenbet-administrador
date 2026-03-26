@@ -1,0 +1,19 @@
+<h2 mat-dialog-title>Executar rendimento</h2>
+<mat-dialog-content>
+	<p class="text-muted m-b-16">Selecione em qual casa de apostas o rendimento foi operado nesta rodada.</p>
+	<mat-form-field appearance="outline" class="w-100" *ngIf="!carregando">
+		<mat-label>Casa de apostas</mat-label>
+		<mat-select [(ngModel)]="selecionada" required>
+			<mat-option *ngFor="let c of casas" [value]="c.codigo">
+				{{ c.nome }}
+			</mat-option>
+		</mat-select>
+	</mat-form-field>
+	<div *ngIf="carregando" class="p-16 text-center">Carregando opções...</div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+	<button mat-button type="button" (click)="fechar()">Cancelar</button>
+	<button mat-flat-button color="primary" [disabled]="!selecionada || carregando" (click)="confirmar()">
+		Executar
+	</button>
+</mat-dialog-actions>

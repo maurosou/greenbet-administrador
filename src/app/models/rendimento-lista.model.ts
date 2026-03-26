@@ -5,4 +5,6 @@ export interface RendimentoListaModel {
 	status: RendimentoStatusEnum;
 	data: string;
 	quantidadePago: number;
+	casaApostaCodigo?: string | null;
+	casaApostaNome?: string | null;
 }

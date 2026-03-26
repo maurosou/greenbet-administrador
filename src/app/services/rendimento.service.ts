@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { PaginacaoModel } from '../models/paginacao.model';
 import { RendimentoListaModel } from '../models/rendimento-lista.model';
 import { RendimentoFormModel } from '../models/rendimento-form.model';
+import { CasaAposta } from '../models/casa-aposta.model';
 
 @Injectable({
 	providedIn: 'root',
@@ -26,7 +27,11 @@ export class RendimentoService {
 		return this.api.get<boolean>(`${this.controller}/cancelar/${id}`);
 	}
 
-	executar(id: any): Observable<boolean> {
-		return this.api.get<boolean>(`${this.controller}/executar/${id}`);
+	casasAposta(): Observable<CasaAposta[]> {
+		return this.api.get<CasaAposta[]>(`${this.controller}/casas-aposta`);
+	}
+
+	executar(id: number, casaApostaCodigo: string): Observable<boolean> {
+		return this.api.post<boolean>(`${this.controller}/executar/${id}`, { casaApostaCodigo });
 	}
 }
