@@ -31,7 +31,8 @@ export class RendimentoService {
 		return this.api.get<CasaAposta[]>(`${this.controller}/casas-aposta`);
 	}
 
-	executar(id: number, casaApostaCodigo: string): Observable<boolean> {
-		return this.api.post<boolean>(`${this.controller}/executar/${id}`, { casaApostaCodigo });
+	/** Usa a casa já salva no rendimento (backend); body vazio. */
+	executar(id: number): Observable<boolean> {
+		return this.api.post<boolean>(`${this.controller}/executar/${id}`, {});
 	}
 }

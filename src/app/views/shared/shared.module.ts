@@ -36,8 +36,6 @@ import { ModalExcluirContratoComponent } from './modal-excluir-contrato/modal-ex
 import { ModalExcluirSocioComponent } from './modal-excluir-socio/modal-excluir-socio.component';
 import { CardSaldoWalletComponent } from './card-saldo-wallet/card-saldo-wallet.component';
 import { CardTotalRendimentoComponent } from './card-total-rendimento/card-total-rendimento.component';
-import { ModalExecutarRendimentoComponent } from './modal-executar-rendimento/modal-executar-rendimento.component';
-
 const components = [
 	CarregandoComponent,
 	PaginacaoComponent,
@@ -68,7 +66,6 @@ const components = [
 	ModalExcluirSocioComponent,
 	CardSaldoWalletComponent,
 	CardTotalRendimentoComponent,
-	ModalExecutarRendimentoComponent,
 ];
 
 @NgModule({

@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { ToastrService } from 'ngx-toastr';
 import { RendimentoStatusEnum } from 'src/app/enums/rendimento-status.enum';
 import { PaginacaoModel } from 'src/app/models/paginacao.model';
 import { RendimentoFiltroModel } from 'src/app/models/rendimento-filtro.model';
 import { RendimentoListaModel } from 'src/app/models/rendimento-lista.model';
 import { RendimentoService } from 'src/app/services/rendimento.service';
 import { ModalRendimentoFormComponent } from '../../shared/modal-rendimento-form/modal-rendimento-form.component';
-import { ModalExecutarRendimentoComponent } from '../../shared/modal-executar-rendimento/modal-executar-rendimento.component';
 
 @Component({
 	selector: 'app-rendimento',
@@ -31,7 +31,11 @@ export class RendimentoComponent {
 
 	displayedColumns: string[] = ['data', 'valor', 'quantidadePago', 'casa', 'status', 'acoes'];
 
-	constructor(private redimentoService: RendimentoService, public dialog: MatDialog) {
+	constructor(
+		private redimentoService: RendimentoService,
+		public dialog: MatDialog,
+		private toast: ToastrService
+	) {
 		this.carregar();
 	}
 
@@ -42,7 +46,7 @@ export class RendimentoComponent {
 				this.lista = data;
 				this.carregando = false;
 			},
-			error: (error) => {
+			error: () => {
 				this.carregando = false;
 			},
 		});
@@ -64,15 +68,18 @@ export class RendimentoComponent {
 	}
 
 	executar(item: RendimentoListaModel) {
-		const dialogRef = this.dialog.open(ModalExecutarRendimentoComponent, {
-			width: '440px',
-			maxWidth: '96vw',
-			data: { id: item.id },
-		});
-		dialogRef.afterClosed().subscribe((ok) => {
-			if (ok) {
+		this.redimentoService.executar(item.id).subscribe({
+			next: () => {
+				this.toast.success('Rendimento em execução.');
 				this.carregar();
-			}
+			},
+			error: (err) => {
+				const msg =
+					err?.error?.errors?.CasaApostaCodigo?.[0] ||
+					err?.error?.title ||
+					'Não foi possível executar. Verifique se o rendimento tem casa de apostas definida.';
+				this.toast.error(msg);
+			},
 		});
 	}
 
