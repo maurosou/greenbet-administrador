@@ -1,0 +1,20 @@
+---
+description: Ao concluir uma tarefa, versionar e enviar ao remoto
+alwaysApply: true
+---
+
+# Git ao finalizar tarefas
+
+O workspace **GreenBet** não é um único repositório Git: há três projetos separados com `.git` próprio:
+
+- `greenbet-backend`
+- `greenbet-cliente`
+- `greenbet-administrador`
+
+**Ao concluir uma tarefa de implementação** (código estável e sem erros de build óbvios):
+
+1. Identificar em **quais** desses pastas houve alteração.
+2. Em cada uma delas: `git status`, `git add` dos arquivos relevantes, `git commit` com mensagem clara em português (o que mudou e por quê).
+3. Executar `git push` para o branch atual (em geral `main`), salvo instrução explícita do usuário em contrário.
+
+Não deixar commits só locais quando a tarefa estiver pronta para integração, a menos que o push falhe por credenciais — nesse caso, informar o usuário objetivamente.
